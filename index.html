@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -24,242 +23,345 @@
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
         .quality-pill { transition: all 0.15s; }
         .quality-pill.active { background: #3b82f6; color: white; box-shadow: 0 4px 14px rgba(59,130,246,0.4); }
+        .output-pill { transition: all 0.15s; }
+        .output-pill.active { background: #8b5cf6; color: white; box-shadow: 0 4px 14px rgba(139,92,246,0.4); }
+        .vmode-pill { transition: all 0.15s; }
+        .vmode-pill.active { background: #6366f1; color: white; }
+        .shape-pill { transition: all 0.15s; }
+        .shape-pill.active { background: #3b82f6; color: white; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-sans">
 
-```
-<header class="bg-slate-900 shadow-md p-4 border-b border-slate-800 shrink-0 sticky top-0 z-20">
-    <div class="max-w-screen-2xl mx-auto flex justify-between items-center">
-        <h1 class="text-xl md:text-2xl font-bold text-blue-400 flex items-center gap-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
-            Gradient Adaptive Voronoi
-        </h1>
-        <p class="hidden md:block text-sm text-slate-400">密度場驅動 / 平滑漸變 / 結構重組</p>
-    </div>
-</header>
+    <header class="bg-slate-900 shadow-md p-4 border-b border-slate-800 shrink-0 sticky top-0 z-20">
+        <div class="max-w-screen-2xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-blue-400 flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+                Gradient Adaptive Voronoi
+            </h1>
+            <p class="hidden md:block text-sm text-slate-400">密度場驅動 / 平滑漸變 / 結構重組</p>
+        </div>
+    </header>
 
-<main class="flex-1 flex flex-col lg:flex-row w-full max-w-screen-2xl mx-auto relative">
-    
-    <!-- 左側控制面板 -->
-    <aside class="w-full lg:w-80 bg-slate-800 p-6 flex flex-col gap-6 border-r border-slate-700 shrink-0 lg:h-[calc(100vh-73px)] lg:sticky lg:top-[73px] lg:overflow-y-auto z-10 shadow-2xl">
+    <main class="flex-1 flex flex-col lg:flex-row w-full max-w-screen-2xl mx-auto relative">
         
-        <div>
-            <label class="block text-sm font-semibold text-slate-300 mb-2">1. 選擇參考圖片</label>
-            <input type="file" id="imageUpload" accept="image/*" class="block w-full text-sm text-slate-400
-                file:mr-4 file:py-2.5 file:px-4
-                file:rounded-lg file:border-0
-                file:text-sm file:font-bold
-                file:bg-blue-500 file:text-white
-                hover:file:bg-blue-400 transition-all cursor-pointer bg-slate-900 rounded-lg border border-slate-700">
-        </div>
-
-        <div>
-            <label class="flex items-start gap-3 cursor-pointer group bg-slate-900/60 p-3.5 rounded-xl border border-amber-700/40 hover:border-amber-500/60 transition-colors">
-                <div class="relative flex items-center justify-center mt-0.5">
-                    <input type="checkbox" id="nativeSize" class="peer sr-only">
-                    <div class="w-5 h-5 bg-slate-800 border-2 border-slate-500 rounded peer-checked:bg-amber-500 peer-checked:border-amber-500 transition-all"></div>
-                    <svg class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-sm font-bold text-amber-300 group-hover:text-amber-200 transition-colors">⚠ 保留原圖完整尺寸</span>
-                    <span class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">關閉時自動縮到 1600px。開啟後完整處理 4K / 8K 圖,跑不跑得動由設備自負 —— 大圖搭配「省電」品質檔可以救一命。</span>
-                </div>
-            </label>
-        </div>
-
-        <div class="h-px bg-slate-700 w-full"></div>
-
-        <div class="space-y-6">
+        <!-- 左側控制面板 -->
+        <aside class="w-full lg:w-80 bg-slate-800 p-6 flex flex-col gap-6 border-r border-slate-700 shrink-0 lg:h-[calc(100vh-73px)] lg:sticky lg:top-[73px] lg:overflow-y-auto z-10 shadow-2xl">
+            
             <div>
-                <label class="block text-sm font-semibold text-slate-300 mb-2 flex justify-between">
-                    <span>平坦區晶體大小</span>
-                    <span id="maxSizeVal" class="text-blue-400 font-mono bg-slate-900 px-2 rounded">80</span>
-                </label>
-                <input type="range" id="maxSize" min="10" max="400" step="1" value="80" class="w-full cursor-pointer">
-                <p class="text-[11px] text-slate-500 mt-1">遠離邊緣處的晶體最大尺寸 (上限 400px)。</p>
+                <label class="block text-sm font-semibold text-slate-300 mb-2">1. 選擇參考圖片</label>
+                <input type="file" id="imageUpload" accept="image/*" class="block w-full text-sm text-slate-400
+                    file:mr-4 file:py-2.5 file:px-4
+                    file:rounded-lg file:border-0
+                    file:text-sm file:font-bold
+                    file:bg-blue-500 file:text-white
+                    hover:file:bg-blue-400 transition-all cursor-pointer bg-slate-900 rounded-lg border border-slate-700">
             </div>
 
             <div>
-                <label class="block text-sm font-semibold text-slate-300 mb-2 flex justify-between">
-                    <span>細節區晶體大小</span>
-                    <span id="minSizeVal" class="text-blue-400 font-mono bg-slate-900 px-2 rounded">3</span>
-                </label>
-                <input type="range" id="minSize" min="1" max="30" step="1" value="3" class="w-full cursor-pointer">
-                <p class="text-[11px] text-slate-500 mt-1">邊緣上的晶體最小尺寸 (=1 等於保留原像素)。</p>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-slate-300 mb-2 flex justify-between">
-                    <span>過渡平滑度</span>
-                    <span id="falloffVal" class="text-blue-400 font-mono bg-slate-900 px-2 rounded">50</span>
-                </label>
-                <input type="range" id="falloff" min="5" max="400" step="1" value="50" class="w-full cursor-pointer">
-                <p class="text-[11px] text-slate-500 mt-1">數值越大，從小晶體漸變到大晶體的範圍越廣。</p>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-slate-300 mb-2 flex justify-between">
-                    <span>邊緣偵測敏銳度</span>
-                    <span id="sensitivityVal" class="text-blue-400 font-mono bg-slate-900 px-2 rounded">25</span>
-                </label>
-                <input type="range" id="sensitivity" min="5" max="80" step="1" value="25" class="w-full cursor-pointer">
-                <p class="text-[11px] text-slate-500 mt-1">數值越低，越微弱的對比也會被視為邊緣。</p>
-            </div>
-
-            <div class="pt-1">
-                <label class="block text-sm font-semibold text-slate-300 mb-2">運算品質 / 設備負擔</label>
-                <div class="grid grid-cols-4 gap-1.5 bg-slate-900 p-1.5 rounded-lg border border-slate-700">
-                    <button data-quality="0.35" class="quality-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400">省電</button>
-                    <button data-quality="0.5" class="quality-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400">標準</button>
-                    <button data-quality="0.75" class="quality-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400 active">高品質</button>
-                    <button data-quality="1.0" class="quality-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400">極致</button>
-                </div>
-                <p class="text-[11px] text-slate-500 mt-1.5">低品質會降採樣 JFA 計算,大幅減輕運算負擔。</p>
-            </div>
-
-            <div class="pt-1">
-                <label class="flex items-start gap-3 cursor-pointer group bg-slate-900/60 p-3.5 rounded-xl border border-slate-600 hover:border-blue-500/50 transition-colors">
+                <label class="flex items-start gap-3 cursor-pointer group bg-slate-900/60 p-3.5 rounded-xl border border-amber-700/40 hover:border-amber-500/60 transition-colors">
                     <div class="relative flex items-center justify-center mt-0.5">
-                        <input type="checkbox" id="minNeutralize" class="peer sr-only">
-                        <div class="w-5 h-5 bg-slate-800 border-2 border-slate-500 rounded peer-checked:bg-blue-500 peer-checked:border-blue-500 transition-all"></div>
+                        <input type="checkbox" id="nativeSize" class="peer sr-only">
+                        <div class="w-5 h-5 bg-slate-800 border-2 border-slate-500 rounded peer-checked:bg-amber-500 peer-checked:border-amber-500 transition-all"></div>
                         <svg class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-sm font-bold text-slate-200 group-hover:text-white transition-colors">附加「最小」結構中和</span>
-                        <span class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">用全新的一層晶格執行 Min 運算。能有效收縮 Max 濾鏡造成的肥胖高光,產生極具魅力的碎裂厚塗感!</span>
+                        <span class="text-sm font-bold text-amber-300 group-hover:text-amber-200 transition-colors">⚠ 保留原圖完整尺寸</span>
+                        <span class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">關閉時自動縮到 1600px。開啟後完整處理 4K / 8K 圖,跑不跑得動由設備自負 —— 大圖搭配「省電」品質檔可以救一命。</span>
                     </div>
                 </label>
             </div>
-        </div>
 
-        <div class="lg:flex-1"></div>
+            <div class="h-px bg-slate-700 w-full"></div>
 
-        <div class="flex flex-col gap-3 mt-4 lg:mt-0 pb-4 lg:pb-0">
-            <button id="applyBtn" class="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl font-bold shadow-lg shadow-blue-900/30 transition-all flex justify-center items-center gap-2 transform active:scale-[0.98]">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                生成藝術濾鏡
-            </button>
-            <div class="flex gap-2">
-                <button id="resetBtn" class="flex-1 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg font-medium transition-all text-sm">還原圖片</button>
-                <button id="downloadBtn" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-medium transition-all text-sm">儲存作品</button>
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-300 mb-2 flex justify-between">
+                        <span>平坦區晶體大小</span>
+                        <span id="maxSizeVal" class="text-blue-400 font-mono bg-slate-900 px-2 rounded">80</span>
+                    </label>
+                    <input type="range" id="maxSize" min="10" max="400" step="1" value="80" class="w-full cursor-pointer">
+                    <p class="text-[11px] text-slate-500 mt-1">遠離邊緣處的晶體最大尺寸 (上限 400px)。</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-300 mb-2 flex justify-between">
+                        <span>細節區晶體大小</span>
+                        <span id="minSizeVal" class="text-blue-400 font-mono bg-slate-900 px-2 rounded">3</span>
+                    </label>
+                    <input type="range" id="minSize" min="1" max="30" step="1" value="3" class="w-full cursor-pointer">
+                    <p class="text-[11px] text-slate-500 mt-1">邊緣上的晶體最小尺寸 (=1 等於保留原像素)。</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-300 mb-2 flex justify-between">
+                        <span>過渡平滑度</span>
+                        <span id="falloffVal" class="text-blue-400 font-mono bg-slate-900 px-2 rounded">50</span>
+                    </label>
+                    <input type="range" id="falloff" min="5" max="400" step="1" value="50" class="w-full cursor-pointer">
+                    <p class="text-[11px] text-slate-500 mt-1">數值越大，從小晶體漸變到大晶體的範圍越廣。</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-300 mb-2 flex justify-between">
+                        <span>邊緣偵測敏銳度</span>
+                        <span id="sensitivityVal" class="text-blue-400 font-mono bg-slate-900 px-2 rounded">25</span>
+                    </label>
+                    <input type="range" id="sensitivity" min="5" max="80" step="1" value="25" class="w-full cursor-pointer">
+                    <p class="text-[11px] text-slate-500 mt-1">數值越低，越微弱的對比也會被視為邊緣。</p>
+                </div>
+
+                <div class="pt-1">
+                    <label class="block text-sm font-semibold text-slate-300 mb-2">運算品質 / 設備負擔</label>
+                    <div class="grid grid-cols-4 gap-1.5 bg-slate-900 p-1.5 rounded-lg border border-slate-700">
+                        <button data-quality="0.35" class="quality-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400">省電</button>
+                        <button data-quality="0.5" class="quality-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400">標準</button>
+                        <button data-quality="0.75" class="quality-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400 active">高品質</button>
+                        <button data-quality="1.0" class="quality-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400">極致</button>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-1.5">低品質會降採樣 JFA 計算,大幅減輕運算負擔。</p>
+                </div>
+
+                <div class="pt-1">
+                    <label class="block text-sm font-semibold text-slate-300 mb-2">輸出模式</label>
+                    <div class="grid grid-cols-2 gap-1.5 bg-slate-900 p-1.5 rounded-lg border border-slate-700">
+                        <button data-mode="luma" class="output-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400 active">Luma 採樣</button>
+                        <button data-mode="voronoi" class="output-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400">Voronoi 分塊</button>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-1.5" id="modeHint">每個晶體用其區域內最亮/最暗像素上色。</p>
+                    <div id="voronoiSubMode" class="hidden mt-2 grid grid-cols-3 gap-1.5 bg-slate-900 p-1.5 rounded-lg border border-slate-700">
+                        <button data-submode="avg" class="vmode-pill px-1.5 py-2 rounded-md text-[11px] font-bold text-slate-400 active">平均色</button>
+                        <button data-submode="center" class="vmode-pill px-1.5 py-2 rounded-md text-[11px] font-bold text-slate-400">中心色</button>
+                        <button data-submode="random" class="vmode-pill px-1.5 py-2 rounded-md text-[11px] font-bold text-slate-400">隨機色</button>
+                    </div>
+                </div>
+
+                <div class="pt-1">
+                    <div class="bg-slate-900/60 rounded-xl border border-slate-600 overflow-hidden transition-colors hover:border-blue-500/50">
+                        <label class="flex items-start gap-3 cursor-pointer group p-3.5">
+                            <div class="relative flex items-center justify-center mt-0.5">
+                                <input type="checkbox" id="minNeutralize" class="peer sr-only">
+                                <div class="w-5 h-5 bg-slate-800 border-2 border-slate-500 rounded peer-checked:bg-blue-500 peer-checked:border-blue-500 transition-all"></div>
+                                <svg class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-sm font-bold text-slate-200 group-hover:text-white transition-colors">附加「最小值」中和濾鏡</span>
+                                <span class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">類似 PS 的「最小值」濾鏡:暗部擴張、收縮肥胖高光,中和第一階段。</span>
+                            </div>
+                        </label>
+
+                        <!-- Min 階段參數面板:PS 風格,只有強度與形狀 -->
+                        <div id="minPanel" class="hidden border-t border-slate-700 bg-slate-950/40 p-3.5 space-y-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1.5 flex justify-between">
+                                    <span>強度 (半徑 px)</span>
+                                    <span id="minRadiusVal" class="text-blue-400 font-mono bg-slate-900 px-1.5 rounded">3</span>
+                                </label>
+                                <input type="range" id="minRadius" min="1" max="20" step="1" value="3" class="w-full cursor-pointer">
+                                <p class="text-[10px] text-slate-500 mt-1">數值越大,亮部收縮越多。</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1.5">形狀</label>
+                                <div class="grid grid-cols-2 gap-1.5 bg-slate-900 p-1.5 rounded-lg border border-slate-700">
+                                    <button data-shape="square" class="shape-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400 active">⬛ 方形</button>
+                                    <button data-shape="round" class="shape-pill px-2 py-2 rounded-md text-xs font-bold text-slate-400">⚫ 圓形</button>
+                                </div>
+                                <p class="text-[10px] text-slate-500 mt-1">方形較銳利、圓形較柔和。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:flex-1"></div>
+
+            <div class="flex flex-col gap-3 mt-4 lg:mt-0 pb-4 lg:pb-0">
+                <button id="applyBtn" class="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl font-bold shadow-lg shadow-blue-900/30 transition-all flex justify-center items-center gap-2 transform active:scale-[0.98]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    生成藝術濾鏡
+                </button>
+                <div class="flex gap-2">
+                    <button id="resetBtn" class="flex-1 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg font-medium transition-all text-sm">還原圖片</button>
+                    <button id="downloadBtn" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-medium transition-all text-sm">儲存作品</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 右側畫布 -->
+        <div class="flex-1 bg-slate-900 relative flex flex-col min-h-[50vh] lg:min-h-0 lg:h-[calc(100vh-73px)]">
+            <div id="loader" class="absolute inset-0 bg-slate-900/80 backdrop-blur-md z-50 hidden flex-col items-center justify-center">
+                <div class="relative w-16 h-16 md:w-20 md:h-20">
+                    <div class="absolute inset-0 border-4 border-blue-500/20 rounded-full"></div>
+                    <div class="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+                <p id="loaderText" class="text-blue-400 mt-6 font-bold tracking-widest animate-pulse text-sm md:text-base">解析結構與拓撲運算中...</p>
+            </div>
+
+            <div class="p-2 md:p-3 bg-slate-800 border-b border-slate-700 flex justify-between items-center text-xs text-slate-400 shadow-sm shrink-0">
+                <div class="flex items-center gap-4">
+                    <span>即時預覽</span>
+                    <span id="statsInfo" class="hidden sm:inline text-indigo-400 font-mono">Seeds: --</span>
+                </div>
+                <span id="resolutionInfo" class="font-mono bg-slate-900 px-2 py-1 rounded border border-slate-700">0 x 0</span>
+            </div>
+            
+            <div class="flex-1 canvas-container relative overflow-auto flex items-center justify-center p-4 md:p-8">
+                <canvas id="mainCanvas" class="max-w-full max-h-full object-contain shadow-2xl rounded-md"></canvas>
             </div>
         </div>
-    </aside>
+    </main>
 
-    <!-- 右側畫布 -->
-    <div class="flex-1 bg-slate-900 relative flex flex-col min-h-[50vh] lg:min-h-0 lg:h-[calc(100vh-73px)]">
-        <div id="loader" class="absolute inset-0 bg-slate-900/80 backdrop-blur-md z-50 hidden flex-col items-center justify-center">
-            <div class="relative w-16 h-16 md:w-20 md:h-20">
-                <div class="absolute inset-0 border-4 border-blue-500/20 rounded-full"></div>
-                <div class="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-            <p id="loaderText" class="text-blue-400 mt-6 font-bold tracking-widest animate-pulse text-sm md:text-base">解析結構與拓撲運算中...</p>
-        </div>
+    <script>
+        const els = {
+            imageUpload: document.getElementById('imageUpload'),
+            maxSize: document.getElementById('maxSize'),
+            minSize: document.getElementById('minSize'),
+            falloff: document.getElementById('falloff'),
+            sensitivity: document.getElementById('sensitivity'),
+            maxSizeVal: document.getElementById('maxSizeVal'),
+            minSizeVal: document.getElementById('minSizeVal'),
+            falloffVal: document.getElementById('falloffVal'),
+            sensitivityVal: document.getElementById('sensitivityVal'),
+            minNeutralize: document.getElementById('minNeutralize'),
+            nativeSize: document.getElementById('nativeSize'),
+            minPanel: document.getElementById('minPanel'),
+            voronoiSubMode: document.getElementById('voronoiSubMode'),
+            modeHint: document.getElementById('modeHint'),
+            // Min 階段 (PS 風格 erosion)
+            minRadius: document.getElementById('minRadius'),
+            minRadiusVal: document.getElementById('minRadiusVal'),
+            applyBtn: document.getElementById('applyBtn'),
+            resetBtn: document.getElementById('resetBtn'),
+            downloadBtn: document.getElementById('downloadBtn'),
+            mainCanvas: document.getElementById('mainCanvas'),
+            loader: document.getElementById('loader'),
+            loaderText: document.getElementById('loaderText'),
+            resolutionInfo: document.getElementById('resolutionInfo'),
+            statsInfo: document.getElementById('statsInfo')
+        };
 
-        <div class="p-2 md:p-3 bg-slate-800 border-b border-slate-700 flex justify-between items-center text-xs text-slate-400 shadow-sm shrink-0">
-            <div class="flex items-center gap-4">
-                <span>即時預覽</span>
-                <span id="statsInfo" class="hidden sm:inline text-indigo-400 font-mono">Seeds: --</span>
-            </div>
-            <span id="resolutionInfo" class="font-mono bg-slate-900 px-2 py-1 rounded border border-slate-700">0 x 0</span>
-        </div>
-        
-        <div class="flex-1 canvas-container relative overflow-auto flex items-center justify-center p-4 md:p-8">
-            <canvas id="mainCanvas" class="max-w-full max-h-full object-contain shadow-2xl rounded-md"></canvas>
-        </div>
-    </div>
-</main>
+        const ctx = els.mainCanvas.getContext('2d', { willReadFrequently: true });
+        let originalImage = null;
+        let qualityFactor = 0.75; // default
+        let outputMode = 'luma';     // 'luma' | 'voronoi'
+        let voronoiSubMode = 'avg';  // 'avg' | 'center' | 'random'
 
-<script>
-    const els = {
-        imageUpload: document.getElementById('imageUpload'),
-        maxSize: document.getElementById('maxSize'),
-        minSize: document.getElementById('minSize'),
-        falloff: document.getElementById('falloff'),
-        sensitivity: document.getElementById('sensitivity'),
-        maxSizeVal: document.getElementById('maxSizeVal'),
-        minSizeVal: document.getElementById('minSizeVal'),
-        falloffVal: document.getElementById('falloffVal'),
-        sensitivityVal: document.getElementById('sensitivityVal'),
-        minNeutralize: document.getElementById('minNeutralize'),
-        nativeSize: document.getElementById('nativeSize'),
-        applyBtn: document.getElementById('applyBtn'),
-        resetBtn: document.getElementById('resetBtn'),
-        downloadBtn: document.getElementById('downloadBtn'),
-        mainCanvas: document.getElementById('mainCanvas'),
-        loader: document.getElementById('loader'),
-        loaderText: document.getElementById('loaderText'),
-        resolutionInfo: document.getElementById('resolutionInfo'),
-        statsInfo: document.getElementById('statsInfo')
-    };
-
-    const ctx = els.mainCanvas.getContext('2d', { willReadFrequently: true });
-    let originalImage = null;
-    let qualityFactor = 0.75; // default
-
-    // 品質按鈕
-    document.querySelectorAll('.quality-pill').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.quality-pill').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            qualityFactor = parseFloat(btn.dataset.quality);
+        // 品質按鈕
+        document.querySelectorAll('.quality-pill').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.quality-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                qualityFactor = parseFloat(btn.dataset.quality);
+            });
         });
-    });
 
-    // UI 綁定與防呆
-    ['maxSize', 'minSize', 'falloff', 'sensitivity'].forEach(id => {
-        els[id].addEventListener('input', (e) => {
-            els[id + 'Val'].textContent = e.target.value;
-            if (id === 'maxSize' && parseInt(els.maxSize.value) < parseInt(els.minSize.value)) {
-                els.minSize.value = els.maxSize.value; els.minSizeVal.textContent = els.minSize.value;
-            }
-            if (id === 'minSize' && parseInt(els.minSize.value) > parseInt(els.maxSize.value)) {
-                els.maxSize.value = els.minSize.value; els.maxSizeVal.textContent = els.maxSize.value;
+        // 輸出模式切換 (Luma / Voronoi)
+        document.querySelectorAll('.output-pill').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.output-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                outputMode = btn.dataset.mode;
+                if (outputMode === 'voronoi') {
+                    els.voronoiSubMode.classList.remove('hidden');
+                    els.voronoiSubMode.classList.add('grid');
+                    els.modeHint.textContent = '每個晶體填滿純色塊,可看清結構分割本身。';
+                } else {
+                    els.voronoiSubMode.classList.add('hidden');
+                    els.voronoiSubMode.classList.remove('grid');
+                    els.modeHint.textContent = '每個晶體用其區域內最亮/最暗像素上色。';
+                }
+            });
+        });
+
+        // Voronoi 子模式 (平均色 / 中心色 / 隨機色)
+        document.querySelectorAll('.vmode-pill').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.vmode-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                voronoiSubMode = btn.dataset.submode;
+            });
+        });
+
+        // 主要參數 UI 綁定與防呆
+        ['maxSize', 'minSize', 'falloff', 'sensitivity'].forEach(id => {
+            els[id].addEventListener('input', (e) => {
+                els[id + 'Val'].textContent = e.target.value;
+                if (id === 'maxSize' && parseInt(els.maxSize.value) < parseInt(els.minSize.value)) {
+                    els.minSize.value = els.maxSize.value; els.minSizeVal.textContent = els.minSize.value;
+                }
+                if (id === 'minSize' && parseInt(els.minSize.value) > parseInt(els.maxSize.value)) {
+                    els.maxSize.value = els.minSize.value; els.maxSizeVal.textContent = els.maxSize.value;
+                }
+            });
+        });
+
+        // Min 階段 (PS 風格 erosion) - 半徑滑桿
+        let minShape = 'square'; // 'square' | 'round'
+        els.minRadius.addEventListener('input', (e) => {
+            els.minRadiusVal.textContent = e.target.value;
+        });
+
+        // 形狀切換
+        document.querySelectorAll('.shape-pill').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.shape-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                minShape = btn.dataset.shape;
+            });
+        });
+
+        // 勾選 Min 中和 → 展開參數面板
+        els.minNeutralize.addEventListener('change', () => {
+            if (els.minNeutralize.checked) {
+                els.minPanel.classList.remove('hidden');
+            } else {
+                els.minPanel.classList.add('hidden');
             }
         });
-    });
 
-    // 繪製測試圖
-    function drawPlaceholder() {
-        const w = 900, h = 600;
-        els.mainCanvas.width = w; els.mainCanvas.height = h;
-        els.resolutionInfo.textContent = `${w} x ${h}`;
-        
-        let grad = ctx.createLinearGradient(0, 0, w, h);
-        grad.addColorStop(0, '#0f172a'); grad.addColorStop(1, '#475569');
-        ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
+        // 繪製測試圖
+        function drawPlaceholder() {
+            const w = 900, h = 600;
+            els.mainCanvas.width = w; els.mainCanvas.height = h;
+            els.resolutionInfo.textContent = `${w} x ${h}`;
+            
+            let grad = ctx.createLinearGradient(0, 0, w, h);
+            grad.addColorStop(0, '#0f172a'); grad.addColorStop(1, '#475569');
+            ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
 
-        ctx.fillStyle = '#ef4444';
-        ctx.beginPath(); ctx.arc(250, 300, 120, 0, Math.PI * 2); ctx.fill();
-        
-        ctx.fillStyle = '#3b82f6';
-        ctx.beginPath(); ctx.moveTo(650, 150); ctx.lineTo(800, 450); ctx.lineTo(500, 450); ctx.fill();
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath(); ctx.arc(250, 300, 120, 0, Math.PI * 2); ctx.fill();
+            
+            ctx.fillStyle = '#3b82f6';
+            ctx.beginPath(); ctx.moveTo(650, 150); ctx.lineTo(800, 450); ctx.lineTo(500, 450); ctx.fill();
 
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '900 70px sans-serif'; ctx.textAlign = 'center';
-        ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 15;
-        ctx.fillText('GRADIENT', w/2, h/2 - 20);
-        
-        ctx.font = '24px sans-serif'; ctx.shadowBlur = 5;
-        ctx.fillStyle = '#cbd5e1';
-        ctx.fillText('上傳照片或直接點擊生成測試效果', w/2, h/2 + 50);
-        ctx.shadowBlur = 0;
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '900 70px sans-serif'; ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 15;
+            ctx.fillText('GRADIENT', w/2, h/2 - 20);
+            
+            ctx.font = '24px sans-serif'; ctx.shadowBlur = 5;
+            ctx.fillStyle = '#cbd5e1';
+            ctx.fillText('上傳照片或直接點擊生成測試效果', w/2, h/2 + 50);
+            ctx.shadowBlur = 0;
 
-        originalImage = new Image();
-        originalImage.src = els.mainCanvas.toDataURL();
-    }
-    drawPlaceholder();
+            originalImage = new Image();
+            originalImage.src = els.mainCanvas.toDataURL();
+        }
+        drawPlaceholder();
 
-    // 載入圖片
-    els.imageUpload.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (evt) => {
+        // 載入圖片
+        // 把最後一個原始檔案 cache 起來,讓使用者切換 nativeSize 時能重新載入
+        let lastRawDataUrl = null;
+
+        function processImageFromDataUrl(dataUrl) {
             const img = new Image();
             img.onload = () => {
-                let w = img.width, h = img.height;
+                const origW = img.width, origH = img.height;
+                let w = origW, h = origH;
+                
+                console.log(`[載入] 原檔尺寸: ${origW}x${origH} | nativeSize 勾選狀態: ${els.nativeSize.checked}`);
                 
                 // nativeSize 開啟 → 完全保留原尺寸,不做任何縮放
                 // 關閉 → 套用 1600px 安全上限
@@ -268,22 +370,31 @@
                     if (w > MAX_SIZE || h > MAX_SIZE) {
                         const ratio = Math.min(MAX_SIZE / w, MAX_SIZE / h);
                         w = Math.round(w * ratio); h = Math.round(h * ratio);
+                        console.log(`[載入] 已縮放至 ${w}x${h} (套用 1600px 上限)`);
+                    } else {
+                        console.log(`[載入] 原尺寸未超過 1600,直接使用`);
                     }
                 } else {
-                    // 給大圖一個提醒 (僅警告,不阻擋)
+                    console.log(`[載入] nativeSize 開啟 → 不縮放,使用原始 ${w}x${h}`);
                     const totalPixels = w * h;
-                    if (totalPixels > 16_000_000) { // > 16 MP
+                    if (totalPixels > 16_000_000) {
                         const mp = (totalPixels / 1_000_000).toFixed(1);
                         const proceed = confirm(`此圖片約 ${mp} MP (${w}x${h})。\n\n大尺寸運算可能耗費數十秒至數分鐘,並佔用大量記憶體。\n建議搭配「省電」品質檔。\n\n繼續以原圖尺寸載入?`);
                         if (!proceed) {
                             els.imageUpload.value = '';
+                            console.log('[載入] 使用者取消大圖載入');
                             return;
                         }
                     }
                 }
                 
                 els.mainCanvas.width = w; els.mainCanvas.height = h;
-                els.resolutionInfo.textContent = `${w} x ${h}`;
+                const wasScaled = (w !== origW || h !== origH);
+                if (wasScaled) {
+                    els.resolutionInfo.innerHTML = `<span class="text-amber-400">${w} x ${h}</span> <span class="text-slate-500 text-[10px]">(原 ${origW}x${origH})</span>`;
+                } else {
+                    els.resolutionInfo.innerHTML = `<span class="text-emerald-400">${w} x ${h}</span> <span class="text-slate-500 text-[10px]">原尺寸</span>`;
+                }
                 ctx.drawImage(img, 0, 0, w, h);
                 originalImage = new Image();
                 originalImage.src = els.mainCanvas.toDataURL();
@@ -291,497 +402,720 @@
                 
                 if (window.innerWidth < 1024) els.mainCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
             };
-            img.src = evt.target.result;
-        };
-        reader.readAsDataURL(file);
-    });
-
-    els.resetBtn.addEventListener('click', () => {
-        if (originalImage) ctx.drawImage(originalImage, 0, 0);
-        els.statsInfo.textContent = 'Seeds: --';
-    });
-
-    els.downloadBtn.addEventListener('click', () => {
-        const link = document.createElement('a');
-        link.download = `gradient-voronoi-${Date.now()}.png`;
-        link.href = els.mainCanvas.toDataURL('image/png');
-        link.click();
-    });
-
-    /* =========================================================
-       漸進式適應 Voronoi - 核心演算法
-       
-       核心思路:
-       1. 計算邊緣強度圖 (sobel-like luma gradient)
-       2. 對邊緣圖做距離變換 (Distance Transform via JFA)
-          -> 得到每個像素「距離最近邊緣的距離」
-       3. 用此距離映射到「期望晶體尺寸」: 近邊緣=小, 遠邊緣=大
-          -> 形成密度場
-       4. 用 Poisson-Disk-like 採樣按密度場灑種子
-          -> 種子間距等於該位置的目標晶體尺寸
-       5. JFA 生成 Voronoi
-       6. Luma morphological filter 上色
-       ========================================================= */
-
-    // 1. 邊緣強度圖 (回傳 0/1 二值圖,用於距離變換)
-    function computeEdgeMap(imageData, threshold) {
-        const { width: W, height: H, data } = imageData;
-        const edgeMap = new Uint8Array(W * H);
-
-        for (let y = 1; y < H - 1; y++) {
-            for (let x = 1; x < W - 1; x++) {
-                const getLuma = (ox, oy) => {
-                    const idx = ((y + oy) * W + (x + ox)) * 4;
-                    return data[idx] * 0.299 + data[idx+1] * 0.587 + data[idx+2] * 0.114;
-                };
-                const dx = Math.abs(getLuma(1, 0) - getLuma(-1, 0));
-                const dy = Math.abs(getLuma(0, 1) - getLuma(0, -1));
-                if ((dx + dy) > threshold) {
-                    edgeMap[y * W + x] = 1;
-                }
-            }
+            img.src = dataUrl;
         }
-        return edgeMap;
-    }
 
-    // 2. 距離變換 (使用 JFA, 計算每個像素到最近 edge 的距離)
-    // 為了效率,在降採樣的網格上計算
-    function computeDistanceField(edgeMap, W, H, downsample) {
-        const dW = Math.max(1, Math.ceil(W / downsample));
-        const dH = Math.max(1, Math.ceil(H / downsample));
-        
-        // 建立 seeds: 每個 edge pixel 變成一個 seed (in downsampled coord)
-        // 使用 closest edge coord array
-        const nearestX = new Int32Array(dW * dH).fill(-1);
-        const nearestY = new Int32Array(dW * dH).fill(-1);
+        els.imageUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                lastRawDataUrl = evt.target.result;
+                processImageFromDataUrl(lastRawDataUrl);
+            };
+            reader.readAsDataURL(file);
+        });
 
-        // 將 edge pixel 投影到降採樣網格
-        for (let y = 0; y < H; y++) {
-            for (let x = 0; x < W; x++) {
-                if (edgeMap[y * W + x]) {
-                    const dx = Math.floor(x / downsample);
-                    const dy = Math.floor(y / downsample);
-                    const idx = dy * dW + dx;
-                    if (nearestX[idx] === -1) {
-                        nearestX[idx] = x;
-                        nearestY[idx] = y;
+        // 點擊 input 前先清空 value,確保即便選同一檔案也會觸發 change
+        els.imageUpload.addEventListener('click', (e) => {
+            e.target.value = '';
+        });
+
+        // 切換 nativeSize 時若已有圖,自動用新設定重新載入
+        els.nativeSize.addEventListener('change', () => {
+            console.log(`[設定] nativeSize 切換為: ${els.nativeSize.checked}`);
+            if (lastRawDataUrl) {
+                console.log('[設定] 偵測到已載入的圖片,以新設定重新處理');
+                processImageFromDataUrl(lastRawDataUrl);
+            }
+        });
+
+        els.resetBtn.addEventListener('click', () => {
+            if (originalImage) ctx.drawImage(originalImage, 0, 0);
+            els.statsInfo.textContent = 'Seeds: --';
+        });
+
+        els.downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = `gradient-voronoi-${Date.now()}.png`;
+            link.href = els.mainCanvas.toDataURL('image/png');
+            link.click();
+        });
+
+        /* =========================================================
+           漸進式適應 Voronoi - 核心演算法
+           
+           核心思路:
+           1. 計算邊緣強度圖 (sobel-like luma gradient)
+           2. 對邊緣圖做距離變換 (Distance Transform via JFA)
+              -> 得到每個像素「距離最近邊緣的距離」
+           3. 用此距離映射到「期望晶體尺寸」: 近邊緣=小, 遠邊緣=大
+              -> 形成密度場
+           4. 用 Poisson-Disk-like 採樣按密度場灑種子
+              -> 種子間距等於該位置的目標晶體尺寸
+           5. JFA 生成 Voronoi
+           6. Luma morphological filter 上色
+           ========================================================= */
+
+        // 1. 邊緣強度圖 (回傳 0/1 二值圖,用於距離變換)
+        function computeEdgeMap(imageData, threshold) {
+            const { width: W, height: H, data } = imageData;
+            const edgeMap = new Uint8Array(W * H);
+
+            for (let y = 1; y < H - 1; y++) {
+                for (let x = 1; x < W - 1; x++) {
+                    const getLuma = (ox, oy) => {
+                        const idx = ((y + oy) * W + (x + ox)) * 4;
+                        return data[idx] * 0.299 + data[idx+1] * 0.587 + data[idx+2] * 0.114;
+                    };
+                    const dx = Math.abs(getLuma(1, 0) - getLuma(-1, 0));
+                    const dy = Math.abs(getLuma(0, 1) - getLuma(0, -1));
+                    if ((dx + dy) > threshold) {
+                        edgeMap[y * W + x] = 1;
                     }
                 }
             }
+            return edgeMap;
         }
 
-        // JFA on downsampled grid
-        let step = Math.pow(2, Math.ceil(Math.log2(Math.max(dW, dH))) - 1);
-        const tmpX = new Int32Array(dW * dH);
-        const tmpY = new Int32Array(dW * dH);
+        // 2. 距離變換 (使用 JFA, 計算每個像素到最近 edge 的距離)
+        // 為了效率,在降採樣的網格上計算
+        function computeDistanceField(edgeMap, W, H, downsample) {
+            const dW = Math.max(1, Math.ceil(W / downsample));
+            const dH = Math.max(1, Math.ceil(H / downsample));
+            
+            // 建立 seeds: 每個 edge pixel 變成一個 seed (in downsampled coord)
+            // 使用 closest edge coord array
+            const nearestX = new Int32Array(dW * dH).fill(-1);
+            const nearestY = new Int32Array(dW * dH).fill(-1);
 
-        while (step >= 1) {
-            tmpX.set(nearestX);
-            tmpY.set(nearestY);
-            for (let y = 0; y < dH; y++) {
-                for (let x = 0; x < dW; x++) {
-                    const cx = x * downsample + downsample / 2;
-                    const cy = y * downsample + downsample / 2;
-                    const idx = y * dW + x;
-                    let bestX = nearestX[idx];
-                    let bestY = nearestY[idx];
-                    let bestDist = (bestX === -1) ? Infinity : 
-                        (cx - bestX) * (cx - bestX) + (cy - bestY) * (cy - bestY);
+            // 將 edge pixel 投影到降採樣網格
+            for (let y = 0; y < H; y++) {
+                for (let x = 0; x < W; x++) {
+                    if (edgeMap[y * W + x]) {
+                        const dx = Math.floor(x / downsample);
+                        const dy = Math.floor(y / downsample);
+                        const idx = dy * dW + dx;
+                        if (nearestX[idx] === -1) {
+                            nearestX[idx] = x;
+                            nearestY[idx] = y;
+                        }
+                    }
+                }
+            }
 
-                    for (let dy = -1; dy <= 1; dy++) {
-                        for (let dx = -1; dx <= 1; dx++) {
-                            if (dx === 0 && dy === 0) continue;
-                            const nx = x + dx * step;
-                            const ny = y + dy * step;
-                            if (nx >= 0 && nx < dW && ny >= 0 && ny < dH) {
-                                const nIdx = ny * dW + nx;
-                                const ex = nearestX[nIdx];
-                                const ey = nearestY[nIdx];
-                                if (ex !== -1) {
-                                    const dist = (cx - ex) * (cx - ex) + (cy - ey) * (cy - ey);
-                                    if (dist < bestDist) {
-                                        bestDist = dist;
-                                        bestX = ex;
-                                        bestY = ey;
+            // JFA on downsampled grid
+            let step = Math.pow(2, Math.ceil(Math.log2(Math.max(dW, dH))) - 1);
+            const tmpX = new Int32Array(dW * dH);
+            const tmpY = new Int32Array(dW * dH);
+
+            while (step >= 1) {
+                tmpX.set(nearestX);
+                tmpY.set(nearestY);
+                for (let y = 0; y < dH; y++) {
+                    for (let x = 0; x < dW; x++) {
+                        const cx = x * downsample + downsample / 2;
+                        const cy = y * downsample + downsample / 2;
+                        const idx = y * dW + x;
+                        let bestX = nearestX[idx];
+                        let bestY = nearestY[idx];
+                        let bestDist = (bestX === -1) ? Infinity : 
+                            (cx - bestX) * (cx - bestX) + (cy - bestY) * (cy - bestY);
+
+                        for (let dy = -1; dy <= 1; dy++) {
+                            for (let dx = -1; dx <= 1; dx++) {
+                                if (dx === 0 && dy === 0) continue;
+                                const nx = x + dx * step;
+                                const ny = y + dy * step;
+                                if (nx >= 0 && nx < dW && ny >= 0 && ny < dH) {
+                                    const nIdx = ny * dW + nx;
+                                    const ex = nearestX[nIdx];
+                                    const ey = nearestY[nIdx];
+                                    if (ex !== -1) {
+                                        const dist = (cx - ex) * (cx - ex) + (cy - ey) * (cy - ey);
+                                        if (dist < bestDist) {
+                                            bestDist = dist;
+                                            bestX = ex;
+                                            bestY = ey;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    tmpX[idx] = bestX;
-                    tmpY[idx] = bestY;
-                }
-            }
-            nearestX.set(tmpX);
-            nearestY.set(tmpY);
-            step = Math.floor(step / 2);
-        }
-
-        // 回傳一個 sampler: 給定原圖座標,回傳到最近 edge 的距離
-        return function getDistance(x, y) {
-            const dx = Math.min(dW - 1, Math.floor(x / downsample));
-            const dy = Math.min(dH - 1, Math.floor(y / downsample));
-            const idx = dy * dW + dx;
-            const ex = nearestX[idx];
-            const ey = nearestY[idx];
-            if (ex === -1) return Infinity;
-            return Math.sqrt((x - ex) * (x - ex) + (y - ey) * (y - ey));
-        };
-    }
-
-    // 3. 距離 → 期望晶體尺寸的映射
-    function distanceToSize(dist, minSize, maxSize, falloff) {
-        // smoothstep: dist=0 → minSize, dist>=falloff → maxSize
-        const t = Math.min(1, dist / falloff);
-        // smoothstep 曲線,讓過渡更自然
-        const s = t * t * (3 - 2 * t);
-        return minSize + (maxSize - minSize) * s;
-    }
-
-    // 4. 基於密度場的 Poisson-Disk-like 採樣
-    // 用空間網格加速。每個位置的最小間距 = distanceToSize(dist)
-    function generateGradientSeeds(W, H, getDistance, minSize, maxSize, falloff) {
-        // 網格 cellSize 設下限避免 minSize=1 時網格膨脹到 W*H
-        // 但仍然要小於 minSize 才能精確檢查,所以取 max(2, minSize)
-        const cellSize = Math.max(2, minSize);
-        const gW = Math.ceil(W / cellSize);
-        const gH = Math.ceil(H / cellSize);
-        const grid = new Array(gW * gH).fill(null);
-        const seeds = [];
-
-        // 計算「期望種子數」上限,避免無限迴圈
-        // 使用空間掃描方式:從上到下、從左到右,每個位置嘗試放種子
-        // 更穩定的做法是 Bridson Poisson Disk,這裡用簡化的網格抖動法
-        
-        // 方法: 在每個 cellSize 網格中嘗試放點,點的間距由密度場決定
-        // 這比 Bridson 簡單但效果接近(且確定性更好)
-        
-        // 先用密度場計算每個網格目標點密度,再用泊松分布採樣
-        // 簡化:走訪每個 cellSize 網格的中心,根據局部期望尺寸決定是否放點
-        
-        // 採用更可靠的方法:基於 dart-throwing 的網格採樣
-        // 對每個 cell,計算該位置的 targetSize,然後以 targetSize 為間距放置
-        
-        // 實作:以最小尺寸為網格步進,在每格中根據局部期望尺寸決定放點機率
-        // 這樣可以保證細節區密度高、平坦區密度低
-        
-        const tryAddSeed = (x, y) => {
-            const dist = getDistance(x, y);
-            const targetSize = distanceToSize(dist, minSize, maxSize, falloff);
-            const minDist = targetSize; // 該點與最近種子的最小距離
-            const minDistSq = minDist * minDist;
-            
-            // 檢查附近網格內的現有種子
-            const gx = Math.floor(x / cellSize);
-            const gy = Math.floor(y / cellSize);
-            const checkRadius = Math.ceil(targetSize / cellSize) + 1;
-            
-            for (let dy = -checkRadius; dy <= checkRadius; dy++) {
-                for (let dx = -checkRadius; dx <= checkRadius; dx++) {
-                    const nx = gx + dx, ny = gy + dy;
-                    if (nx < 0 || nx >= gW || ny < 0 || ny >= gH) continue;
-                    const cell = grid[ny * gW + nx];
-                    if (cell !== null) {
-                        const ddx = x - cell.x, ddy = y - cell.y;
-                        // 用 max(target, neighborTarget) 防止距離不對稱
-                        const neighborSize = cell.size;
-                        const requiredDistSq = Math.max(targetSize, neighborSize) ** 2 * 0.65;
-                        if (ddx * ddx + ddy * ddy < requiredDistSq) return false;
+                        tmpX[idx] = bestX;
+                        tmpY[idx] = bestY;
                     }
                 }
+                nearestX.set(tmpX);
+                nearestY.set(tmpY);
+                step = Math.floor(step / 2);
             }
-            
-            if (grid[gy * gW + gx] === null) {
-                const seed = { x, y, size: targetSize };
-                grid[gy * gW + gx] = seed;
-                seeds.push(seed);
-                return true;
-            }
-            return false;
-        };
 
-        // 用鋸齒掃描順序 + 抖動,從密度高的細節區開始放點
-        // 為確保細節區優先,先收集所有候選位置並按密度排序
-        const candidates = [];
-        // 取樣 stride 有下限,避免 minSize=1 時候選點數量爆炸
-        const SAMPLE_STRIDE_FLOOR = 2;
-        const stride = Math.max(SAMPLE_STRIDE_FLOOR, Math.floor(minSize * 0.7));
-        for (let y = 0; y < H; y += stride) {
-            for (let x = 0; x < W; x += stride) {
-                const jx = x + (Math.random() - 0.5) * stride;
-                const jy = y + (Math.random() - 0.5) * stride;
-                const cx = Math.max(0, Math.min(W - 1, jx));
-                const cy = Math.max(0, Math.min(H - 1, jy));
-                const dist = getDistance(cx, cy);
-                candidates.push({ x: cx, y: cy, priority: dist });
-            }
-        }
-        // 按照 priority 排序: 距離邊緣越近(小)優先放,確保細節先佔位
-        candidates.sort((a, b) => a.priority - b.priority);
-        
-        for (const c of candidates) {
-            tryAddSeed(c.x, c.y);
-        }
-        
-        // 補充第二輪掃描,填滿空隙
-        const stride2 = Math.max(SAMPLE_STRIDE_FLOOR, Math.floor(minSize * 0.5));
-        for (let y = stride2 / 2; y < H; y += stride2) {
-            for (let x = stride2 / 2; x < W; x += stride2) {
-                const jx = x + (Math.random() - 0.5) * stride2 * 0.8;
-                const jy = y + (Math.random() - 0.5) * stride2 * 0.8;
-                tryAddSeed(
-                    Math.max(0, Math.min(W - 1, jx)),
-                    Math.max(0, Math.min(H - 1, jy))
-                );
-            }
-        }
-
-        return seeds;
-    }
-
-    // 5. JFA 生成 Voronoi (在降採樣網格上,然後上採樣回原解析度)
-    function computeJFA(W, H, seeds, downsample) {
-        const dW = Math.max(1, Math.ceil(W / downsample));
-        const dH = Math.max(1, Math.ceil(H / downsample));
-        
-        let ping = new Int32Array(dW * dH).fill(-1);
-        let pong = new Int32Array(dW * dH).fill(-1);
-        const seedX = new Float32Array(seeds.length);
-        const seedY = new Float32Array(seeds.length);
-        
-        for (let i = 0; i < seeds.length; i++) {
-            seedX[i] = seeds[i].x;
-            seedY[i] = seeds[i].y;
-            const px = Math.min(dW - 1, Math.max(0, Math.floor(seeds[i].x / downsample)));
-            const py = Math.min(dH - 1, Math.max(0, Math.floor(seeds[i].y / downsample)));
-            // 衝突時保留先到的 (保證所有 seed 在 JFA 期間都有機會傳播)
-            if (ping[py * dW + px] === -1) {
-                ping[py * dW + px] = i;
-            }
-        }
-
-        // 對於沒能放進降採樣網格的 seed,額外注入 (放在最接近的空格,或就用同格的)
-        // 先收集已存的 seed id
-        const placed = new Set();
-        for (let i = 0; i < dW * dH; i++) {
-            if (ping[i] !== -1) placed.add(ping[i]);
-        }
-        // 沒被放置的 seed 強制覆寫到目標格(這會讓某些 seed 被擠掉,但 JFA 後會自然修正)
-        for (let i = 0; i < seeds.length; i++) {
-            if (placed.has(i)) continue;
-            const px = Math.min(dW - 1, Math.max(0, Math.floor(seeds[i].x / downsample)));
-            const py = Math.min(dH - 1, Math.max(0, Math.floor(seeds[i].y / downsample)));
-            ping[py * dW + px] = i;
-        }
-
-        let step = Math.pow(2, Math.ceil(Math.log2(Math.max(dW, dH))) - 1);
-
-        while (step >= 1) {
-            for (let y = 0; y < dH; y++) {
-                for (let x = 0; x < dW; x++) {
-                    const idx = y * dW + x;
-                    // 使用 cell center 作為查詢座標 (原圖空間)
-                    const cx = x * downsample + downsample / 2;
-                    const cy = y * downsample + downsample / 2;
-                    let bestId = ping[idx];
-                    let bestDist = Infinity;
-
-                    if (bestId !== -1) {
-                        const dx = cx - seedX[bestId];
-                        const dy = cy - seedY[bestId];
-                        bestDist = dx * dx + dy * dy; 
-                    }
-
-                    for (let dy = -1; dy <= 1; dy++) {
-                        for (let dx = -1; dx <= 1; dx++) {
-                            if (dx === 0 && dy === 0) continue;
-                            const nx = x + dx * step;
-                            const ny = y + dy * step;
-                            if (nx >= 0 && nx < dW && ny >= 0 && ny < dH) {
-                                const checkId = ping[ny * dW + nx];
-                                if (checkId !== -1) {
-                                    const cdx = cx - seedX[checkId];
-                                    const cdy = cy - seedY[checkId];
-                                    const dist = cdx * cdx + cdy * cdy;
-                                    if (dist < bestDist) {
-                                        bestDist = dist;
-                                        bestId = checkId;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    pong[idx] = bestId;
-                }
-            }
-            let temp = ping; ping = pong; pong = temp;
-            step = Math.floor(step / 2);
-        }
-
-        // 上採樣到原始解析度: 對於原圖的每個像素,計算它屬於哪個 seed
-        // 在 downsample > 1 時,直接從降採樣 voronoi 查表會有鋸齒
-        // 改用:對原圖每個像素,從降採樣網格周邊 seeds 中找最近的
-        const fullMap = new Int32Array(W * H);
-        for (let y = 0; y < H; y++) {
-            for (let x = 0; x < W; x++) {
+            // 回傳一個 sampler: 給定原圖座標,回傳到最近 edge 的距離
+            return function getDistance(x, y) {
                 const dx = Math.min(dW - 1, Math.floor(x / downsample));
                 const dy = Math.min(dH - 1, Math.floor(y / downsample));
+                const idx = dy * dW + dx;
+                const ex = nearestX[idx];
+                const ey = nearestY[idx];
+                if (ex === -1) return Infinity;
+                return Math.sqrt((x - ex) * (x - ex) + (y - ey) * (y - ey));
+            };
+        }
+
+        // 3. 距離 → 期望晶體尺寸的映射
+        function distanceToSize(dist, minSize, maxSize, falloff) {
+            // smoothstep: dist=0 → minSize, dist>=falloff → maxSize
+            const t = Math.min(1, dist / falloff);
+            // smoothstep 曲線,讓過渡更自然
+            const s = t * t * (3 - 2 * t);
+            return minSize + (maxSize - minSize) * s;
+        }
+
+        // 4. 基於密度場的 Poisson-Disk-like 採樣
+        // 用空間網格加速。每個位置的最小間距 = distanceToSize(dist)
+        function generateGradientSeeds(W, H, getDistance, minSize, maxSize, falloff) {
+            // 網格 cellSize 設下限避免 minSize=1 時網格膨脹到 W*H
+            // 但仍然要小於 minSize 才能精確檢查,所以取 max(2, minSize)
+            const cellSize = Math.max(2, minSize);
+            const gW = Math.ceil(W / cellSize);
+            const gH = Math.ceil(H / cellSize);
+            const grid = new Array(gW * gH).fill(null);
+            const seeds = [];
+
+            // 計算「期望種子數」上限,避免無限迴圈
+            // 使用空間掃描方式:從上到下、從左到右,每個位置嘗試放種子
+            // 更穩定的做法是 Bridson Poisson Disk,這裡用簡化的網格抖動法
+            
+            // 方法: 在每個 cellSize 網格中嘗試放點,點的間距由密度場決定
+            // 這比 Bridson 簡單但效果接近(且確定性更好)
+            
+            // 先用密度場計算每個網格目標點密度,再用泊松分布採樣
+            // 簡化:走訪每個 cellSize 網格的中心,根據局部期望尺寸決定是否放點
+            
+            // 採用更可靠的方法:基於 dart-throwing 的網格採樣
+            // 對每個 cell,計算該位置的 targetSize,然後以 targetSize 為間距放置
+            
+            // 實作:以最小尺寸為網格步進,在每格中根據局部期望尺寸決定放點機率
+            // 這樣可以保證細節區密度高、平坦區密度低
+            
+            const tryAddSeed = (x, y) => {
+                const dist = getDistance(x, y);
+                const targetSize = distanceToSize(dist, minSize, maxSize, falloff);
+                const minDist = targetSize; // 該點與最近種子的最小距離
+                const minDistSq = minDist * minDist;
                 
-                // 比對自己和鄰近 cell 的 seed
-                let bestId = ping[dy * dW + dx];
-                let bestDist = bestId === -1 ? Infinity :
-                    (x - seedX[bestId]) ** 2 + (y - seedY[bestId]) ** 2;
+                // 檢查附近網格內的現有種子
+                const gx = Math.floor(x / cellSize);
+                const gy = Math.floor(y / cellSize);
+                const checkRadius = Math.ceil(targetSize / cellSize) + 1;
                 
-                for (let oy = -1; oy <= 1; oy++) {
-                    for (let ox = -1; ox <= 1; ox++) {
-                        if (ox === 0 && oy === 0) continue;
-                        const nx = dx + ox, ny = dy + oy;
-                        if (nx < 0 || nx >= dW || ny < 0 || ny >= dH) continue;
-                        const id = ping[ny * dW + nx];
-                        if (id === -1) continue;
-                        const d = (x - seedX[id]) ** 2 + (y - seedY[id]) ** 2;
-                        if (d < bestDist) {
-                            bestDist = d;
-                            bestId = id;
+                for (let dy = -checkRadius; dy <= checkRadius; dy++) {
+                    for (let dx = -checkRadius; dx <= checkRadius; dx++) {
+                        const nx = gx + dx, ny = gy + dy;
+                        if (nx < 0 || nx >= gW || ny < 0 || ny >= gH) continue;
+                        const cell = grid[ny * gW + nx];
+                        if (cell !== null) {
+                            const ddx = x - cell.x, ddy = y - cell.y;
+                            // 用 max(target, neighborTarget) 防止距離不對稱
+                            const neighborSize = cell.size;
+                            const requiredDistSq = Math.max(targetSize, neighborSize) ** 2 * 0.65;
+                            if (ddx * ddx + ddy * ddy < requiredDistSq) return false;
                         }
                     }
                 }
-                fullMap[y * W + x] = bestId;
-            }
-        }
-        
-        return { voronoiMap: fullMap, numSeeds: seeds.length };
-    }
-
-    // 6. 真實像素採樣濾鏡
-    function applyTrueMorphologicalFilter(imageData, voronoiMap, numSeeds, mode) {
-        const { width: W, height: H, data } = imageData;
-        const resultData = new Uint8ClampedArray(data.length);
-        
-        const bestPixelIndex = new Int32Array(numSeeds).fill(-1);
-        const bestVal = new Float32Array(numSeeds);
-        if (mode === 'max') bestVal.fill(-1);
-        else bestVal.fill(Infinity);
-
-        for (let i = 0; i < W * H; i++) {
-            const id = voronoiMap[i];
-            if (id === -1 || id >= numSeeds) continue; 
-            const idx = i * 4;
-            const r = data[idx], g = data[idx + 1], b = data[idx + 2];
-            const luma = r * 0.299 + g * 0.587 + b * 0.114;
-            if (mode === 'max') {
-                if (luma > bestVal[id]) {
-                    bestVal[id] = luma;
-                    bestPixelIndex[id] = i;
+                
+                if (grid[gy * gW + gx] === null) {
+                    const seed = { x, y, size: targetSize };
+                    grid[gy * gW + gx] = seed;
+                    seeds.push(seed);
+                    return true;
                 }
-            } else {
-                if (luma < bestVal[id]) {
-                    bestVal[id] = luma;
-                    bestPixelIndex[id] = i;
-                }
-            }
-        }
-
-        for (let i = 0; i < W * H; i++) {
-            const id = voronoiMap[i];
-            const targetIdx = i * 4;
-            if (id !== -1 && id < numSeeds && bestPixelIndex[id] !== -1) {
-                const sourceIdx = bestPixelIndex[id] * 4;
-                resultData[targetIdx] = data[sourceIdx];
-                resultData[targetIdx + 1] = data[sourceIdx + 1];
-                resultData[targetIdx + 2] = data[sourceIdx + 2];
-            } else {
-                resultData[targetIdx] = data[targetIdx];
-                resultData[targetIdx + 1] = data[targetIdx + 1];
-                resultData[targetIdx + 2] = data[targetIdx + 2];
-            }
-            resultData[targetIdx + 3] = data[targetIdx + 3];
-        }
-        return new ImageData(resultData, W, H);
-    }
-
-    // --- 執行流程 ---
-    async function runAdaptiveFilter() {
-        if (!originalImage) return;
-        if (window.innerWidth < 1024) els.mainCanvas.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-        els.loader.style.display = 'flex';
-        els.applyBtn.disabled = true;
-        els.applyBtn.classList.add('opacity-70', 'cursor-wait');
-        
-        await new Promise(resolve => setTimeout(resolve, 50));
-
-        try {
-            const W = els.mainCanvas.width;
-            const H = els.mainCanvas.height;
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = W; tempCanvas.height = H;
-            const tCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
-            tCtx.drawImage(originalImage, 0, 0);
-            
-            let currentImgData = tCtx.getImageData(0, 0, W, H);
-            const config = {
-                maxSize: parseInt(els.maxSize.value),
-                minSize: parseInt(els.minSize.value),
-                falloff: parseInt(els.falloff.value),
-                sensitivity: parseInt(els.sensitivity.value)
+                return false;
             };
 
-            // 品質因子: 降採樣倍數的反向
-            // 品質越高 → downsample 越接近 1 (越接近原解析度計算)
-            // 品質低時 → downsample 較大,計算更快
-            const downsample = Math.max(1, Math.round(1 / qualityFactor));
-
-            let totalSeedsCount = 0;
-
-            // [階段一: MAX]
-            els.loaderText.textContent = `計算邊緣與距離場 (品質 x${qualityFactor})... (1/3)`;
-            await new Promise(resolve => setTimeout(resolve, 30));
+            // 用鋸齒掃描順序 + 抖動,從密度高的細節區開始放點
+            // 為確保細節區優先,先收集所有候選位置並按密度排序
+            const candidates = [];
+            // 取樣 stride 有下限,避免 minSize=1 時候選點數量爆炸
+            const SAMPLE_STRIDE_FLOOR = 2;
+            const stride = Math.max(SAMPLE_STRIDE_FLOOR, Math.floor(minSize * 0.7));
+            for (let y = 0; y < H; y += stride) {
+                for (let x = 0; x < W; x += stride) {
+                    const jx = x + (Math.random() - 0.5) * stride;
+                    const jy = y + (Math.random() - 0.5) * stride;
+                    const cx = Math.max(0, Math.min(W - 1, jx));
+                    const cy = Math.max(0, Math.min(H - 1, jy));
+                    const dist = getDistance(cx, cy);
+                    candidates.push({ x: cx, y: cy, priority: dist });
+                }
+            }
+            // 按照 priority 排序: 距離邊緣越近(小)優先放,確保細節先佔位
+            candidates.sort((a, b) => a.priority - b.priority);
             
-            const edgeMap1 = computeEdgeMap(currentImgData, config.sensitivity);
-            const getDist1 = computeDistanceField(edgeMap1, W, H, downsample);
-
-            els.loaderText.textContent = '依密度場灑種子點... (2/3)';
-            await new Promise(resolve => setTimeout(resolve, 30));
+            for (const c of candidates) {
+                tryAddSeed(c.x, c.y);
+            }
             
-            const seedsMax = generateGradientSeeds(W, H, getDist1, config.minSize, config.maxSize, config.falloff);
-            totalSeedsCount += seedsMax.length;
-
-            els.loaderText.textContent = '建構 Voronoi 拓撲並上色... (3/3)';
-            await new Promise(resolve => setTimeout(resolve, 30));
-            
-            const jfaMax = computeJFA(W, H, seedsMax, downsample);
-            currentImgData = applyTrueMorphologicalFilter(currentImgData, jfaMax.voronoiMap, jfaMax.numSeeds, 'max');
-
-            // [階段二: MIN 中和]
-            if (els.minNeutralize.checked) {
-                els.loaderText.textContent = '重組拓撲並執行暗部收縮...';
-                await new Promise(resolve => setTimeout(resolve, 30));
-                
-                const edgeMap2 = computeEdgeMap(currentImgData, config.sensitivity);
-                const getDist2 = computeDistanceField(edgeMap2, W, H, downsample);
-                const seedsMin = generateGradientSeeds(W, H, getDist2, config.minSize, config.maxSize, config.falloff);
-                totalSeedsCount += seedsMin.length;
-                const jfaMin = computeJFA(W, H, seedsMin, downsample);
-                currentImgData = applyTrueMorphologicalFilter(currentImgData, jfaMin.voronoiMap, jfaMin.numSeeds, 'min');
+            // 補充第二輪掃描,填滿空隙
+            const stride2 = Math.max(SAMPLE_STRIDE_FLOOR, Math.floor(minSize * 0.5));
+            for (let y = stride2 / 2; y < H; y += stride2) {
+                for (let x = stride2 / 2; x < W; x += stride2) {
+                    const jx = x + (Math.random() - 0.5) * stride2 * 0.8;
+                    const jy = y + (Math.random() - 0.5) * stride2 * 0.8;
+                    tryAddSeed(
+                        Math.max(0, Math.min(W - 1, jx)),
+                        Math.max(0, Math.min(H - 1, jy))
+                    );
+                }
             }
 
-            ctx.putImageData(currentImgData, 0, 0);
-            els.statsInfo.textContent = `Seeds: ${totalSeedsCount.toLocaleString()}`;
-
-        } catch (err) {
-            console.error(err);
-            alert('運算過程中發生錯誤: ' + err.message);
-        } finally {
-            els.loader.style.display = 'none';
-            els.applyBtn.disabled = false;
-            els.applyBtn.classList.remove('opacity-70', 'cursor-wait');
+            return seeds;
         }
-    }
 
-    els.applyBtn.addEventListener('click', runAdaptiveFilter);
-</script>
-```
+        // 5. JFA 生成 Voronoi (在降採樣網格上,然後上採樣回原解析度)
+        function computeJFA(W, H, seeds, downsample) {
+            const dW = Math.max(1, Math.ceil(W / downsample));
+            const dH = Math.max(1, Math.ceil(H / downsample));
+            
+            let ping = new Int32Array(dW * dH).fill(-1);
+            let pong = new Int32Array(dW * dH).fill(-1);
+            const seedX = new Float32Array(seeds.length);
+            const seedY = new Float32Array(seeds.length);
+            
+            for (let i = 0; i < seeds.length; i++) {
+                seedX[i] = seeds[i].x;
+                seedY[i] = seeds[i].y;
+                const px = Math.min(dW - 1, Math.max(0, Math.floor(seeds[i].x / downsample)));
+                const py = Math.min(dH - 1, Math.max(0, Math.floor(seeds[i].y / downsample)));
+                // 衝突時保留先到的 (保證所有 seed 在 JFA 期間都有機會傳播)
+                if (ping[py * dW + px] === -1) {
+                    ping[py * dW + px] = i;
+                }
+            }
 
+            // 對於沒能放進降採樣網格的 seed,額外注入 (放在最接近的空格,或就用同格的)
+            // 先收集已存的 seed id
+            const placed = new Set();
+            for (let i = 0; i < dW * dH; i++) {
+                if (ping[i] !== -1) placed.add(ping[i]);
+            }
+            // 沒被放置的 seed 強制覆寫到目標格(這會讓某些 seed 被擠掉,但 JFA 後會自然修正)
+            for (let i = 0; i < seeds.length; i++) {
+                if (placed.has(i)) continue;
+                const px = Math.min(dW - 1, Math.max(0, Math.floor(seeds[i].x / downsample)));
+                const py = Math.min(dH - 1, Math.max(0, Math.floor(seeds[i].y / downsample)));
+                ping[py * dW + px] = i;
+            }
+
+            let step = Math.pow(2, Math.ceil(Math.log2(Math.max(dW, dH))) - 1);
+
+            while (step >= 1) {
+                for (let y = 0; y < dH; y++) {
+                    for (let x = 0; x < dW; x++) {
+                        const idx = y * dW + x;
+                        // 使用 cell center 作為查詢座標 (原圖空間)
+                        const cx = x * downsample + downsample / 2;
+                        const cy = y * downsample + downsample / 2;
+                        let bestId = ping[idx];
+                        let bestDist = Infinity;
+
+                        if (bestId !== -1) {
+                            const dx = cx - seedX[bestId];
+                            const dy = cy - seedY[bestId];
+                            bestDist = dx * dx + dy * dy; 
+                        }
+
+                        for (let dy = -1; dy <= 1; dy++) {
+                            for (let dx = -1; dx <= 1; dx++) {
+                                if (dx === 0 && dy === 0) continue;
+                                const nx = x + dx * step;
+                                const ny = y + dy * step;
+                                if (nx >= 0 && nx < dW && ny >= 0 && ny < dH) {
+                                    const checkId = ping[ny * dW + nx];
+                                    if (checkId !== -1) {
+                                        const cdx = cx - seedX[checkId];
+                                        const cdy = cy - seedY[checkId];
+                                        const dist = cdx * cdx + cdy * cdy;
+                                        if (dist < bestDist) {
+                                            bestDist = dist;
+                                            bestId = checkId;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        pong[idx] = bestId;
+                    }
+                }
+                let temp = ping; ping = pong; pong = temp;
+                step = Math.floor(step / 2);
+            }
+
+            // 上採樣到原始解析度: 對於原圖的每個像素,計算它屬於哪個 seed
+            // 在 downsample > 1 時,直接從降採樣 voronoi 查表會有鋸齒
+            // 改用:對原圖每個像素,從降採樣網格周邊 seeds 中找最近的
+            const fullMap = new Int32Array(W * H);
+            for (let y = 0; y < H; y++) {
+                for (let x = 0; x < W; x++) {
+                    const dx = Math.min(dW - 1, Math.floor(x / downsample));
+                    const dy = Math.min(dH - 1, Math.floor(y / downsample));
+                    
+                    // 比對自己和鄰近 cell 的 seed
+                    let bestId = ping[dy * dW + dx];
+                    let bestDist = bestId === -1 ? Infinity :
+                        (x - seedX[bestId]) ** 2 + (y - seedY[bestId]) ** 2;
+                    
+                    for (let oy = -1; oy <= 1; oy++) {
+                        for (let ox = -1; ox <= 1; ox++) {
+                            if (ox === 0 && oy === 0) continue;
+                            const nx = dx + ox, ny = dy + oy;
+                            if (nx < 0 || nx >= dW || ny < 0 || ny >= dH) continue;
+                            const id = ping[ny * dW + nx];
+                            if (id === -1) continue;
+                            const d = (x - seedX[id]) ** 2 + (y - seedY[id]) ** 2;
+                            if (d < bestDist) {
+                                bestDist = d;
+                                bestId = id;
+                            }
+                        }
+                    }
+                    fullMap[y * W + x] = bestId;
+                }
+            }
+            
+            return { voronoiMap: fullMap, numSeeds: seeds.length };
+        }
+
+        // 6. 真實像素採樣濾鏡
+        function applyTrueMorphologicalFilter(imageData, voronoiMap, numSeeds, mode) {
+            const { width: W, height: H, data } = imageData;
+            const resultData = new Uint8ClampedArray(data.length);
+            
+            const bestPixelIndex = new Int32Array(numSeeds).fill(-1);
+            const bestVal = new Float32Array(numSeeds);
+            if (mode === 'max') bestVal.fill(-1);
+            else bestVal.fill(Infinity);
+
+            for (let i = 0; i < W * H; i++) {
+                const id = voronoiMap[i];
+                if (id === -1 || id >= numSeeds) continue; 
+                const idx = i * 4;
+                const r = data[idx], g = data[idx + 1], b = data[idx + 2];
+                const luma = r * 0.299 + g * 0.587 + b * 0.114;
+                if (mode === 'max') {
+                    if (luma > bestVal[id]) {
+                        bestVal[id] = luma;
+                        bestPixelIndex[id] = i;
+                    }
+                } else {
+                    if (luma < bestVal[id]) {
+                        bestVal[id] = luma;
+                        bestPixelIndex[id] = i;
+                    }
+                }
+            }
+
+            for (let i = 0; i < W * H; i++) {
+                const id = voronoiMap[i];
+                const targetIdx = i * 4;
+                if (id !== -1 && id < numSeeds && bestPixelIndex[id] !== -1) {
+                    const sourceIdx = bestPixelIndex[id] * 4;
+                    resultData[targetIdx] = data[sourceIdx];
+                    resultData[targetIdx + 1] = data[sourceIdx + 1];
+                    resultData[targetIdx + 2] = data[sourceIdx + 2];
+                } else {
+                    resultData[targetIdx] = data[targetIdx];
+                    resultData[targetIdx + 1] = data[targetIdx + 1];
+                    resultData[targetIdx + 2] = data[targetIdx + 2];
+                }
+                resultData[targetIdx + 3] = data[targetIdx + 3];
+            }
+            return new ImageData(resultData, W, H);
+        }
+
+        // 7. Voronoi 純色塊濾鏡 (展示分割結構本身)
+        // submode: 'avg' = 區域平均色 / 'center' = 種子位置色 / 'random' = 隨機色
+        function applyVoronoiColorFill(imageData, voronoiMap, numSeeds, seeds, submode) {
+            const { width: W, height: H, data } = imageData;
+            const resultData = new Uint8ClampedArray(data.length);
+
+            // 為每個 seed 預先計算填色
+            const fillR = new Uint8ClampedArray(numSeeds);
+            const fillG = new Uint8ClampedArray(numSeeds);
+            const fillB = new Uint8ClampedArray(numSeeds);
+
+            if (submode === 'avg') {
+                // 累積每個 cell 的色彩平均值
+                const sumR = new Float64Array(numSeeds);
+                const sumG = new Float64Array(numSeeds);
+                const sumB = new Float64Array(numSeeds);
+                const count = new Uint32Array(numSeeds);
+                for (let i = 0; i < W * H; i++) {
+                    const id = voronoiMap[i];
+                    if (id === -1 || id >= numSeeds) continue;
+                    const idx = i * 4;
+                    sumR[id] += data[idx];
+                    sumG[id] += data[idx + 1];
+                    sumB[id] += data[idx + 2];
+                    count[id]++;
+                }
+                for (let id = 0; id < numSeeds; id++) {
+                    if (count[id] > 0) {
+                        fillR[id] = sumR[id] / count[id];
+                        fillG[id] = sumG[id] / count[id];
+                        fillB[id] = sumB[id] / count[id];
+                    }
+                }
+            } else if (submode === 'center') {
+                // 直接抓 seed 中心位置的顏色
+                for (let id = 0; id < numSeeds && id < seeds.length; id++) {
+                    const sx = Math.max(0, Math.min(W - 1, Math.round(seeds[id].x)));
+                    const sy = Math.max(0, Math.min(H - 1, Math.round(seeds[id].y)));
+                    const idx = (sy * W + sx) * 4;
+                    fillR[id] = data[idx];
+                    fillG[id] = data[idx + 1];
+                    fillB[id] = data[idx + 2];
+                }
+            } else { // 'random'
+                // 隨機色:用 hash 確保同一個 seed 在同次運算保持一致
+                for (let id = 0; id < numSeeds; id++) {
+                    // 簡單 hash 產生穩定但分散的色相
+                    const hue = ((id * 137) % 360) / 360;
+                    const sat = 0.55 + ((id * 53) % 100) / 250; // 0.55 ~ 0.95
+                    const lit = 0.45 + ((id * 91) % 100) / 333; // 0.45 ~ 0.75
+                    const [r, g, b] = hslToRgb(hue, sat, lit);
+                    fillR[id] = r; fillG[id] = g; fillB[id] = b;
+                }
+            }
+
+            // 填回畫面
+            for (let i = 0; i < W * H; i++) {
+                const id = voronoiMap[i];
+                const t = i * 4;
+                if (id !== -1 && id < numSeeds) {
+                    resultData[t] = fillR[id];
+                    resultData[t + 1] = fillG[id];
+                    resultData[t + 2] = fillB[id];
+                } else {
+                    resultData[t] = data[t];
+                    resultData[t + 1] = data[t + 1];
+                    resultData[t + 2] = data[t + 2];
+                }
+                resultData[t + 3] = data[t + 3];
+            }
+            return new ImageData(resultData, W, H);
+        }
+
+        // HSL → RGB (隨機色用)
+        function hslToRgb(h, s, l) {
+            let r, g, b;
+            if (s === 0) { r = g = b = l; }
+            else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1; if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        }
+
+        // 8. PS 風格最小值濾鏡 (Erosion)
+        // shape: 'square' (可分離,O(N)) | 'round' (圓盤遮罩,O(N·r²))
+        // 對 RGB 各通道獨立做 min,Alpha 直接保留
+        function applyMinimumFilter(imageData, radius, shape) {
+            const { width: W, height: H, data } = imageData;
+            if (radius < 1) return imageData;
+
+            if (shape === 'square') {
+                // 兩次可分離通過:水平 → 垂直
+                // 每次用單調遞增佇列維持滑動視窗最小值,單通道 O(N)
+                const r = radius;
+                const tmp = new Uint8ClampedArray(data.length);
+                tmp.set(data);
+                const out = new Uint8ClampedArray(data.length);
+                out.set(data);
+
+                // 水平通過 (tmp → out)
+                for (let ch = 0; ch < 3; ch++) {
+                    for (let y = 0; y < H; y++) {
+                        const rowStart = y * W;
+                        const deque = []; // 存索引,保持其值單調遞增
+                        for (let x = 0; x < W + r; x++) {
+                            // 加入新元素 (若 x < W)
+                            if (x < W) {
+                                const v = tmp[(rowStart + x) * 4 + ch];
+                                while (deque.length && tmp[(rowStart + deque[deque.length - 1]) * 4 + ch] >= v) {
+                                    deque.pop();
+                                }
+                                deque.push(x);
+                            }
+                            // 移除超出視窗的元素 (左界 = x - r)
+                            while (deque.length && deque[0] < x - 2 * r) {
+                                deque.shift();
+                            }
+                            // 寫入結果 (對應 x - r 位置)
+                            const writeX = x - r;
+                            if (writeX >= 0 && writeX < W && deque.length) {
+                                out[(rowStart + writeX) * 4 + ch] = tmp[(rowStart + deque[0]) * 4 + ch];
+                            }
+                        }
+                    }
+                }
+
+                // 垂直通過 (out → tmp)
+                tmp.set(out);
+                for (let ch = 0; ch < 3; ch++) {
+                    for (let x = 0; x < W; x++) {
+                        const deque = [];
+                        for (let y = 0; y < H + r; y++) {
+                            if (y < H) {
+                                const v = tmp[(y * W + x) * 4 + ch];
+                                while (deque.length && tmp[(deque[deque.length - 1] * W + x) * 4 + ch] >= v) {
+                                    deque.pop();
+                                }
+                                deque.push(y);
+                            }
+                            while (deque.length && deque[0] < y - 2 * r) {
+                                deque.shift();
+                            }
+                            const writeY = y - r;
+                            if (writeY >= 0 && writeY < H && deque.length) {
+                                out[(writeY * W + x) * 4 + ch] = tmp[(deque[0] * W + x) * 4 + ch];
+                            }
+                        }
+                    }
+                }
+
+                // Alpha 通道保留
+                for (let i = 3; i < data.length; i += 4) out[i] = data[i];
+                return new ImageData(out, W, H);
+
+            } else {
+                // 圓形:預先建立圓盤偏移表,然後對每像素掃整個遮罩取 min
+                const r = radius;
+                const offsets = []; // [dx, dy] 對 (含中心)
+                const r2 = r * r;
+                for (let dy = -r; dy <= r; dy++) {
+                    for (let dx = -r; dx <= r; dx++) {
+                        if (dx * dx + dy * dy <= r2) offsets.push([dx, dy]);
+                    }
+                }
+                
+                const out = new Uint8ClampedArray(data.length);
+                for (let y = 0; y < H; y++) {
+                    for (let x = 0; x < W; x++) {
+                        let minR = 255, minG = 255, minB = 255;
+                        for (let k = 0; k < offsets.length; k++) {
+                            const nx = x + offsets[k][0];
+                            const ny = y + offsets[k][1];
+                            if (nx < 0 || nx >= W || ny < 0 || ny >= H) continue;
+                            const idx = (ny * W + nx) * 4;
+                            if (data[idx] < minR) minR = data[idx];
+                            if (data[idx + 1] < minG) minG = data[idx + 1];
+                            if (data[idx + 2] < minB) minB = data[idx + 2];
+                        }
+                        const t = (y * W + x) * 4;
+                        out[t] = minR;
+                        out[t + 1] = minG;
+                        out[t + 2] = minB;
+                        out[t + 3] = data[t + 3];
+                    }
+                }
+                return new ImageData(out, W, H);
+            }
+        }
+
+        // --- 執行流程 ---
+        async function runAdaptiveFilter() {
+            if (!originalImage) return;
+            if (window.innerWidth < 1024) els.mainCanvas.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            els.loader.style.display = 'flex';
+            els.applyBtn.disabled = true;
+            els.applyBtn.classList.add('opacity-70', 'cursor-wait');
+            
+            await new Promise(resolve => setTimeout(resolve, 50));
+
+            try {
+                const W = els.mainCanvas.width;
+                const H = els.mainCanvas.height;
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = W; tempCanvas.height = H;
+                const tCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
+                tCtx.drawImage(originalImage, 0, 0);
+                
+                let currentImgData = tCtx.getImageData(0, 0, W, H);
+                const config = {
+                    maxSize: parseInt(els.maxSize.value),
+                    minSize: parseInt(els.minSize.value),
+                    falloff: parseInt(els.falloff.value),
+                    sensitivity: parseInt(els.sensitivity.value)
+                };
+
+                // 品質因子: 降採樣倍數的反向
+                const downsample = Math.max(1, Math.round(1 / qualityFactor));
+
+                let totalSeedsCount = 0;
+
+                // 共用:依輸出模式套用顏色
+                const applyColorByMode = (imgData, voronoiMap, numSeeds, seeds, lumaMode) => {
+                    if (outputMode === 'voronoi') {
+                        return applyVoronoiColorFill(imgData, voronoiMap, numSeeds, seeds, voronoiSubMode);
+                    }
+                    return applyTrueMorphologicalFilter(imgData, voronoiMap, numSeeds, lumaMode);
+                };
+
+                // [階段一: MAX]
+                els.loaderText.textContent = `計算邊緣與距離場 (品質 x${qualityFactor})... (1/3)`;
+                await new Promise(resolve => setTimeout(resolve, 30));
+                
+                const edgeMap1 = computeEdgeMap(currentImgData, config.sensitivity);
+                const getDist1 = computeDistanceField(edgeMap1, W, H, downsample);
+
+                els.loaderText.textContent = '依密度場灑種子點... (2/3)';
+                await new Promise(resolve => setTimeout(resolve, 30));
+                
+                const seedsMax = generateGradientSeeds(W, H, getDist1, config.minSize, config.maxSize, config.falloff);
+                totalSeedsCount += seedsMax.length;
+
+                els.loaderText.textContent = '建構 Voronoi 拓撲並上色... (3/3)';
+                await new Promise(resolve => setTimeout(resolve, 30));
+                
+                const jfaMax = computeJFA(W, H, seedsMax, downsample);
+                currentImgData = applyColorByMode(currentImgData, jfaMax.voronoiMap, jfaMax.numSeeds, seedsMax, 'max');
+
+                // [階段二: PS 風格最小值濾鏡 (erosion)]
+                if (els.minNeutralize.checked) {
+                    const radius = parseInt(els.minRadius.value);
+                    els.loaderText.textContent = `套用最小值濾鏡 (${minShape === 'square' ? '方形' : '圓形'} r=${radius})...`;
+                    await new Promise(resolve => setTimeout(resolve, 30));
+                    
+                    currentImgData = applyMinimumFilter(currentImgData, radius, minShape);
+                }
+
+                ctx.putImageData(currentImgData, 0, 0);
+                els.statsInfo.textContent = `Seeds: ${totalSeedsCount.toLocaleString()}`;
+
+            } catch (err) {
+                console.error(err);
+                alert('運算過程中發生錯誤: ' + err.message);
+            } finally {
+                els.loader.style.display = 'none';
+                els.applyBtn.disabled = false;
+                els.applyBtn.classList.remove('opacity-70', 'cursor-wait');
+            }
+        }
+
+        els.applyBtn.addEventListener('click', runAdaptiveFilter);
+    </script>
 </body>
 </html>
